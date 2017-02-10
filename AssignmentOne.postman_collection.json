@@ -1,0 +1,56 @@
+{
+	"id": "a7053870-b747-48fc-865e-d908ed4dd149",
+	"name": "AssignmentOne",
+	"description": "",
+	"order": [
+		"8c44e833-1f74-2aee-31e6-4e65111ecced",
+		"658e152c-d2bb-7094-6dd9-131a8c65b1e4"
+	],
+	"folders": [],
+	"timestamp": 1486235401127,
+	"owner": "1480321",
+	"public": false,
+	"requests": [
+		{
+			"id": "658e152c-d2bb-7094-6dd9-131a8c65b1e4",
+			"headers": "",
+			"url": "https://www.googleapis.com/books/v1/volumes/{{BookId}}",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "a7053870-b747-48fc-865e-d908ed4dd149",
+			"data": null,
+			"dataMode": "params",
+			"name": "https://www.googleapis.com/books/v1/volumes/{{BookId}}",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1486686384862,
+			"version": 2,
+			"responses": [],
+			"tests": "\nvar returnList = JSON.parse(responseBody);//changes returnList to an object\nvar id = returnList.id;//var to hold ID\nvar isID = false;//set as every response should contain Turing and be true. should only change if false\n//this verifies if previous id and current id are the same\nif(returnList.id === environment.BookId)\n{\n    isID = true;\n}\n\n//this test verifies a response code success = 200\ntests[\"Status code is 200\"] = responseCode.code === 200;\n//this test states it received id sent match\ntests[\"This ID is correct\"] = isID;\n\n\n\n\n\n",
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "8c44e833-1f74-2aee-31e6-4e65111ecced",
+			"headers": "",
+			"url": "https://www.googleapis.com/books/v1/volumes?q={{book_title}}",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": "var returnList = JSON.parse(responseBody);//changes returnList to an object\nvar id = returnList.items[0].id;//var to hold title ID\npostman.setEnvironmentVariable(\"BookId\",id); \nvar isTrue = true;\nfor(var j = 0; j < returnList.items.length; j++ )\n    {\n        if (!returnList.items[j].volumeInfo.title.includes(\"Turing\"))\n        {\n           isTrue = false; \n        }\n    \n    }//this function verifies if title contains Turing\n\n\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"All titles contain Turing\"] = isTrue;",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"time": 1486589755145,
+			"name": "https://www.googleapis.com/books/v1/volumes?q={{book_title}}",
+			"description": "",
+			"collectionId": "a7053870-b747-48fc-865e-d908ed4dd149",
+			"responses": [],
+			"folder": null,
+			"rawModeData": null,
+			"descriptionFormat": null
+		}
+	]
+}
